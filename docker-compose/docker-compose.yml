@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:latest
+    container_name: TaskManager_db
+    environment:
+      POSTGRES_USER: TaskManager_db_admin
+      POSTGRES_PASSWORD: TaskManager_db_admin
+      POSTGRES_DB: TaskManager_db
+    ports:
+      - "5432:5432"
+
+  task-manager:
+    build:
+      context: ../
+    ports:
+    - "8001:8000"
+    depends_on:
+    - postgres-db
+    environment:
+      DB_HOST: "TaskManager_db"
+      DB_NAME: "TaskManager_db"
+      DB_USER: "TaskManager_db_admin"
+      DB_PASSWORD: "TaskManager_db_admin"
+      DB_PORT: 5432
